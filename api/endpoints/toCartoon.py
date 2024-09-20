@@ -1,7 +1,7 @@
 import datetime
 import os
 
-from api.endpoints.getFace import get_face
+from api.endpoints import getFace
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 from PIL import Image
@@ -132,8 +132,20 @@ def load_image(image_path, x32=False):
     return img
 
 def generate(image_path: str, output_dir: str, t: int, device='cuda'):
-    # print(image_path)
-    # get_face(image_path)
+
+    # 加载图片
+    image = load_image(image_path)
+
+    # 图片脸部识别
+    image = getFace.crop_one_face(image)
+
+    # 图片重设
+    size = image.size
+    print(size)
+    y = 512
+    x = int(size[0] * y / size[1])
+    image = image.resize(size=(x, y))
+
     print(image_path, "开始加载", datetime.datetime.now())
     _ext = os.path.basename(image_path).strip().split('.')[-1]
     if t == 1:
@@ -153,13 +165,8 @@ def generate(image_path: str, output_dir: str, t: int, device='cuda'):
     net.load_state_dict(torch.load(_checkpoint, weights_only=True))
     net.to(device).eval()
 
-    image = load_image(image_path)
-    size = image.size
-    # 重设图片尺寸
-    # y = 1600
-    # x = int(size[0] * y / size[1])
-    # print(x, y)
-    # image = image.resize(size=(x, y))
+
+
 
     print(image_path, '加载完毕', datetime.datetime.now())
     with torch.no_grad():
