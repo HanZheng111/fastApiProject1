@@ -1,6 +1,8 @@
 import os
+import time
 import uuid
 
+from PIL import Image
 from uvicorn import run
 import uvicorn
 from fastapi import FastAPI, Request, Body, UploadFile, File, Form
@@ -9,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 
 import api
+import tools.imgResizeSize
 from api.endpoints import generatePic, toCartoon
 import requests
 
@@ -34,7 +37,7 @@ async def say_hello(name: str):
 
 
 @app.post("/generatePic")
-def sss(
+async def generatePicC(
         uploadImage: str = Body(embed=True),
         rawImage: str = Body(embed=True),
         upIsTop: bool = Body(embed=True),
@@ -45,10 +48,13 @@ def sss(
         y: int = Body(embed=True)
 ):
     # generatePic.generate_pic()
+    beforeT=time.time()
     url = generatePic.generate_pic1(uploadImage, rawImage, upIsTop, upNeedRemove, uploadImageResizeLong,
-                                    uploadImageResizeWidth, x, y)
-
+                                     uploadImageResizeWidth, x, y)
+    afterT=time.time()
+    print("spend time:",afterT-beforeT)
     url = url.replace("D:/output", "http://192.168.1.119:9999")
+    print(url)
 
     message = {
         "code": 1,
@@ -87,6 +93,12 @@ async def upload_image(file: UploadFile = File(...)):
     save_path = path_prefix + uuid.uuid4().hex + "." + file_suffix
     with open(save_path, 'wb') as f:
         f.write(await file.read())
+
+    pic=Image.open(save_path)
+    s=tools.imgResizeSize.GetResizeFromHigh(pic.size,400)
+    pic=pic.resize(size=s)
+    pic.save(save_path)
+
     return {
         "code": 1,
         "res": '上传成功',

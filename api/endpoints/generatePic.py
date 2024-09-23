@@ -58,6 +58,7 @@ def generate_pic1(upload_image, raw_image, up_is_top, up_need_remove, upload_ima
                   upload_image_resize_width, x, y):
     print(upload_image, raw_image)
     # 都以RGBA模式打开不然后面合成图片有问题
+    print(upload_image)
     upload_pic = Image.open(upload_image).convert("RGBA")
     raw_pic = Image.open(raw_image).convert("RGBA")
 
@@ -79,3 +80,5 @@ def generate_pic1(upload_image, raw_image, up_is_top, up_need_remove, upload_ima
     img_path = "D:/output/splicing_pic/" + uuid.uuid4().hex + ".png"
     result_img.save(img_path, format="PNG")
     return img_path
+
+

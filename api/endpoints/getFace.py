@@ -67,6 +67,7 @@ def crop_face(input_folder_path, output_folder_path):
 face_detector = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 def crop_one_face(in_img):
     # face_detector = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    # 图片格式转换 PIL Image => cv Image
     img = cv2.cvtColor(np.asarray(in_img), cv2.COLOR_RGB2BGR)
     height, width, channels = img.shape
     # 将图像转换为灰度图像
