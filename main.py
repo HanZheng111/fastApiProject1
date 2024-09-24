@@ -2,18 +2,16 @@ import os
 import time
 import uuid
 
+import numba
 from PIL import Image
-from uvicorn import run
 import uvicorn
-from fastapi import FastAPI, Request, Body, UploadFile, File, Form
+from fastapi import FastAPI, Body, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-
-import asyncio
+import concurrent.futures
 
 import api
 import tools.imgResizeSize
 from api.endpoints import generatePic, toCartoon
-import requests
 
 app = FastAPI()
 # 允许所有来源的跨域请求
@@ -48,11 +46,13 @@ async def generatePicC(
         y: int = Body(embed=True)
 ):
     # generatePic.generate_pic()
-    beforeT=time.time()
-    url = generatePic.generate_pic1(uploadImage, rawImage, upIsTop, upNeedRemove, uploadImageResizeLong,
-                                     uploadImageResizeWidth, x, y)
-    afterT=time.time()
-    print("spend time:",afterT-beforeT)
+    beforeT = time.time()
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        url = generatePic.generate_pic1(uploadImage, rawImage, upIsTop, upNeedRemove, uploadImageResizeLong,
+                                        uploadImageResizeWidth, x, y)
+    afterT = time.time()
+    print("spend time:", afterT - beforeT)
     url = url.replace("D:/output", "http://192.168.1.119:9999")
     print(url)
 
@@ -64,13 +64,13 @@ async def generatePicC(
     }
     return message
 
-
 @app.post(path="/toCartoon")
 async def toCartoon(
         uploadImage: str = Body(embed=True)
 ):
     path_prefix = "D:/output/toCartoon"
-    url = api.endpoints.toCartoon.generate(uploadImage, path_prefix, 2)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        url = api.endpoints.toCartoon.generate(uploadImage, path_prefix, 6)
     print(url)
     url = url.replace("D:/output", "http://192.168.1.119:9999")
     print(url)
@@ -94,9 +94,9 @@ async def upload_image(file: UploadFile = File(...)):
     with open(save_path, 'wb') as f:
         f.write(await file.read())
 
-    pic=Image.open(save_path)
-    s=tools.imgResizeSize.GetResizeFromHigh(pic.size,400)
-    pic=pic.resize(size=s)
+    pic = Image.open(save_path)
+    s = tools.imgResizeSize.GetResizeFromHigh(pic.size, 400)
+    pic = pic.resize(size=s)
     pic.save(save_path)
 
     return {

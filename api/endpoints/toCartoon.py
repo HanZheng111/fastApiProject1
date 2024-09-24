@@ -131,8 +131,8 @@ def load_image(image_path, x32=False):
 
     return img
 
-def generate(image_path: str, output_dir: str, t: int, device='cuda'):
 
+def generate(image_path: str, output_dir: str, t: int, device='cuda'):
     # 加载图片
     image = load_image(image_path)
 
@@ -157,16 +157,15 @@ def generate(image_path: str, output_dir: str, t: int, device='cuda'):
     # elif t == 4:
     #     _checkpoint = 'weights/vgg19_no_fc.npy'
     elif t == 5:
-        _checkpoint = 'weights/AnimeGANv3_Hayao_36.onnx'
+        _checkpoint = 'weights/pytorch_generator_Shinkai.pt'
+    elif t == 6:
+        _checkpoint = 'weights/Hayao.pt'
     else:
         raise Exception('type not support')
     os.makedirs(output_dir, exist_ok=True)
     net = Generator()
     net.load_state_dict(torch.load(_checkpoint, weights_only=True))
     net.to(device).eval()
-
-
-
 
     print(image_path, '加载完毕', datetime.datetime.now())
     with torch.no_grad():
