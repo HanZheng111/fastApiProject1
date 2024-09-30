@@ -1,4 +1,3 @@
-import time
 import uuid
 
 import onnxruntime
