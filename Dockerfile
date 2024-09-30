@@ -1,16 +1,12 @@
-FROM python:3.11
-
+FROM conda/miniconda3
+ 
+# 设置工作目录
 WORKDIR /app
 
+# 复制本地文件到工作目录
 COPY . /app
 
-RUN pip install rembg[gpu] \
-    && pip install fastapi \
-    && pip install opencv \
-    && pip install numpy \
-    && pip install uvicorn
-
-
-FROM nvidia/cuda:11.8.0-devel-ubi8
-
-RUN uvicorn main:app -host 0.0.0.0 -port 9090
+RUN conda env create --name newenv --file environment.yml
+ 
+# 设置容器启动时执行的命令
+CMD ["uvicorn", "main:app" ,"--port", "9090"]

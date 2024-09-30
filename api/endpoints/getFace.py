@@ -3,7 +3,6 @@ import cv2
 import os
 
 from PIL import Image
-from keras.src.losses import hinge
 
 
 def crop_face(input_folder_path, output_folder_path):

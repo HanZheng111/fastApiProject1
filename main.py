@@ -49,11 +49,11 @@ async def generatePicC(
     beforeT = time.time()
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        url = generatePic.generate_pic1(uploadImage, rawImage, upIsTop, upNeedRemove, uploadImageResizeLong,
+        url = generatePic.generate_pic(uploadImage, rawImage, upIsTop, upNeedRemove, uploadImageResizeLong,
                                         uploadImageResizeWidth, x, y)
     afterT = time.time()
     print("spend time:", afterT - beforeT)
-    url = url.replace("D:/output", "http://192.168.1.119:9999")
+    url = url.replace("output", "http://192.168.1.119:9999")
     print(url)
 
     message = {
@@ -110,4 +110,4 @@ async def upload_image(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     # uvicorn.run(app, host="192.168.1.119", port=8000, timeout_keep_alive=60)
-    uvicorn.run(app, host="192.168.1.119", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

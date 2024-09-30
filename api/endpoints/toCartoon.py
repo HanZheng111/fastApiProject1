@@ -7,7 +7,6 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 from PIL import Image
 import torch
 from torchvision.transforms.functional import to_tensor, to_pil_image
-from torch import nn
 import torch.nn.functional as F
 import uuid
 
