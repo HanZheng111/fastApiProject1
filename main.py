@@ -2,7 +2,6 @@ import os
 import time
 import uuid
 
-import numba
 from PIL import Image
 import uvicorn
 from fastapi import FastAPI, Body, UploadFile, File

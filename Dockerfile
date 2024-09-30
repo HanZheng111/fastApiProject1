@@ -35,7 +35,7 @@ COPY . /app
 
 # 原请求 改为请求镜像站
 #RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-RUN pip3 install torch torchvision torchaudio --index-url https://mirrors.aliyun.com/pytorch-wheels/cu118 -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com \
+RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://mirrors.aliyun.com/pytorch-wheels/cu118 -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com \
     && pip install --no-cache-dir -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/   --trusted-host mirrors.aliyun.com
 
 
@@ -43,4 +43,4 @@ RUN pip3 install torch torchvision torchaudio --index-url https://mirrors.aliyun
 #    &&pip --no-cache-dir install -r requirements.txt
 
 
-CMD ["python","main.py"]
+#CMD ["python","main.py"]
