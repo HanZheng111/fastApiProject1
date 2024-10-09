@@ -30,7 +30,7 @@ def remove_background(img, s):
 # print(ort_session.get_providers())
 
 
-rembgSession = rembg.new_session()
+rembgSession = rembg.new_session(providers=['CUDAExecutionProvider'])
 
 
 def generate_pic(upload_image, raw_image, up_is_top, up_need_remove, upload_image_resize_long,
