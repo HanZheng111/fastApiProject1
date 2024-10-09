@@ -1,3 +1,4 @@
+import concurrent.futures
 import uuid
 
 import onnxruntime
@@ -40,8 +41,9 @@ def generate_pic(upload_image, raw_image, up_is_top, up_need_remove, upload_imag
     upload_pic = Image.open(upload_image).convert("RGBA")
     raw_pic = Image.open(raw_image).convert("RGBA")
 
-    # 修改尺寸
-    upload_pic = upload_pic.resize((upload_image_resize_long, upload_image_resize_width))
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # 修改尺寸
+        upload_pic = upload_pic.resize((upload_image_resize_long, upload_image_resize_width))
 
 
     # 移除背景
