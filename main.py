@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import time
 import uuid
@@ -68,11 +67,11 @@ async def generatePicC(
 async def toCartoon(
         uploadImage: str = Body(embed=True)
 ):
-    path_prefix = "D:/output/toCartoon"
+    path_prefix = "output/toCartoon"
     with concurrent.futures.ThreadPoolExecutor() as executor:
         url = api.endpoints.toCartoon.generate(uploadImage, path_prefix, 6)
     print(url)
-    url = url.replace("D:/output", "http://192.168.1.119:9999")
+    url = url.replace("output", "http://192.168.1.119:9999")
     print(url)
     message = {
         "code": 1,
