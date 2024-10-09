@@ -135,8 +135,8 @@ def generate(image_path: str, output_dir: str, t: int, device='cuda'):
     # 加载图片
     image = load_image(image_path)
 
-    # 图片脸部识别
-    image = getFace.crop_one_face(image)
+    # # 图片脸部识别
+    # image = getFace.crop_one_face(image)
 
     # 图片重设
     size = image.size
