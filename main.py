@@ -33,7 +33,7 @@ async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
 
-@app.post("/generatePic")
+@app.post(path="/generatePic")
 async def generatePicC(
         uploadImage: str = Body(embed=True),
         rawImage: str = Body(embed=True),
@@ -109,4 +109,4 @@ async def upload_image(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     # uvicorn.run(app, host="192.168.1.119", port=8000, timeout_keep_alive=60)
-    uvicorn.run(app='main:app', host="0.0.0.0", port=8000,workers=3)
+    uvicorn.run(app='main:app', host="0.0.0.0", port=8000,workers=2)

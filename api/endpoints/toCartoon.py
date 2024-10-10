@@ -9,7 +9,9 @@ import torch
 from torchvision.transforms.functional import to_tensor, to_pil_image
 import torch.nn.functional as F
 import uuid
+import torch.backends.cudnn as cudnn
 
+cudnn.benchmark = True
 
 # -------------------------- hy add 01 --------------------------
 class ConvNormLReLU(torch.nn.Sequential):
